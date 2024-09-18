@@ -26,7 +26,7 @@ def add_book():
             'category': book.category
         })
     except requests.exceptions.RequestException as e:
-        return jsonify({'error': 'Could not notify the frontend ' + e}), 500
+        return jsonify({'error': f'Could not notify the frontend {e}'}), 500
     return jsonify({'book added': book}), 201
 
 @app_look.route('/remove_book/<book_id>', methods=['DELETE'])
