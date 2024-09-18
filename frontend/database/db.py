@@ -14,7 +14,7 @@ class Database:
 
     def begin_session(self):
         if self._session is None:
-            self._session = scoped_session(sessionmaker(bind=self.__engine, expires_on_commit=True))
+            self._session = scoped_session(sessionmaker(bind=self.__engine))
         return self._session
     
     def close_session(self):
@@ -22,11 +22,11 @@ class Database:
             self._session.remove()
             self._session = None
         
-    @property
-    def add(self):
-        return self.begin_session().add
+   
+    def add(self, num):
+        return self.begin_session().add(num)
     
-    @property
+
     def save(self):
         return self.begin_session().commit
     
@@ -40,14 +40,14 @@ class Database:
 
     def add_books(self, **kwargs):
         books = Book(**kwargs)
-        self._session.add(books)
-        self._session.commit()
+        self.add(books)
+        self.save()
         return books
     
 
     def get_books(self):
         return self._session.query(Book).all()
     
-    
+
     def get_book_by_id(self, id):
         return self._session.query(Book).filter(Book.id == id).first()

@@ -8,7 +8,7 @@ class Book(Base):
     title = Column(String(255), nullable=False)
     publisher = Column(String(255), nullable=False)
     category = Column(String(255), nullable=False)
-    user_id = Column(String(128), ForeignKey='user.id', nullable=False)
+    user_id = Column(String(128), ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='book')
 
     def __init__(self, **kwargs):
