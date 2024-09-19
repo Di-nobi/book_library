@@ -41,7 +41,7 @@ class Database:
         return self.begin_session().query(Book).filter(Book.publisher == publisher).first()
     
     def get_category(self, category):
-        return self.begin_session().query(Book).filter(Book.category == category).all()
+        return self.begin_session().query(Book).filter(Book.category == category).first()
 
     def add_books(self, **kwargs):
         books = Book(**kwargs)
@@ -49,6 +49,8 @@ class Database:
         self.save()
         return books
     
+    def delete(self):
+        return self.begin_session().delete()
 
     def get_books(self):
         return self.begin_session().query(Book).all()

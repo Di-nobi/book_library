@@ -27,4 +27,4 @@ if __name__ == '__main__':
     print("Starting Flask on port 5001...")
     host = os.getenv('HOST', '0.0.0.0')
     port = int(os.getenv('PORT', '5001'))
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=host, port=port, threaded=True, debug=True)

@@ -57,16 +57,48 @@ def get_users():
     user_list = []
     for user in users:
         data = {
-            user.firstName,
-            user.lastName,
-            user.email
+            'firstName': user.firstName,
+            'lastName': user.lastName,
+            'email': user.email
         }
         user_list.append(data)
     return jsonify({'message': user_list}), 200
 
-@app_look.route('/book_borrowed_user', methods=['GET'])
-def get_users_with_books():
-    """Return all users with books checked out"""
+
+@app_look.route('/update_book_detail', methods=['POST'])
+def remove_from_catalog():
+    """Removes book from catalog if borrowed"""
+    data = request.get_json()
+    print(f"Received data: {data}")
+    kwargs = {
+        'id': data.get('id'),
+        'available': data.get('available'),
+        'due_date': data.get('due_date'),
+    }
+    if not kwargs['id'] or kwargs['available'] is None or not kwargs['due_date']:
+        return jsonify({'error': 'Missing required fields'}), 401
+    book = storage.get_book_by_id(kwargs['id'])
+    if not book:
+        return jsonify({'error': 'Book not found'}), 404
+    book.available = kwargs['available']
+    book.due_date = kwargs['due_date']
+    storage.save()
+
+    book_dict = {
+        'id': book.id,
+        'title': book.title,
+        'publisher': book.publisher,
+        'category': book.category,
+        'available': book.available,
+        'due_date': book.due_date,
+        'user_id': book.user_id
+    }
+    print(book_dict)
+    return jsonify({'book removed': book_dict}), 201
+
+@app_look.route('/users_borrowed_books', methods=['GET'])
+def get_users_borrowed_books():
+    """Return all users with books not in catalogue"""
     users = storage.get_users_with_books()
     if not users:
         return jsonify({'error': 'No users with books checked out'}), 404
@@ -82,22 +114,28 @@ def get_users_with_books():
         }
         result.append(user_data)
     return jsonify({'users': result}), 200
+
 @app_look.route('/unavailable_books', methods=['GET'])
 def get_unavailable_books():
     """Return all books that are not available"""
-    books = storage.get_books()
-    if not books:
-        return jsonify({'error': 'No books in the catalogue'}), 404
+    try:
+        books = storage.get_books()
+        if not books:
+            return jsonify({'error': 'No books in the catalogue'}), 404
 
-    unavailable_books = []
-    for book in books:
-        if not book.available:
-            data = {
-                'id': book.id,
-                'title': book.title,
-                'publisher': book.publisher,
-                'category': book.category,
-                'due_date': book.due_date
-            }
-            unavailable_books.append(data)
-    return jsonify({'unavailable books': unavailable_books}), 200
+        unavailable_books = []
+        for book in books:
+            if not book.available:
+                data = {
+                    'id': book.id,
+                    'title': book.title,
+                    'publisher': book.publisher,
+                    'category': book.category,
+                    'due_date': book.due_date
+                }
+                unavailable_books.append(data)
+            else:
+                return jsonify({'message': 'All books are available'}), 200
+        return jsonify({'unavailable books and due date': unavailable_books}), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred {e}'}), 500

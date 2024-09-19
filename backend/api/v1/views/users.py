@@ -8,7 +8,7 @@ def add_user():
     """Adds new users to the library"""
     
     data = request.get_json()
-
+    print(f'Received data: {data}')
     kwargs = {
         'firstName': data.get('firstName'),
         'lastName': data.get('lastName'),
@@ -24,4 +24,5 @@ def add_user():
         'lastName': user.lastName,
         'email': user.email
     }
+    print(user_list)
     return jsonify({'user added': user_list }), 201
