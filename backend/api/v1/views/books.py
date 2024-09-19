@@ -1,7 +1,7 @@
 from flask import jsonify, request, redirect, abort
 import requests
-from api.v1.views import app_look
-from database import storage
+from backend.api.v1.views import app_look
+from backend.database import storage
 
 
 @app_look.route('/add_book', methods=['POST'])
