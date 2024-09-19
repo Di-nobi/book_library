@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 from models import Base
+import uuid
 
 class User(Base):
     __tablename__ = 'users'
@@ -11,7 +12,7 @@ class User(Base):
     book = relationship('Book', back_populates='user')
 
     def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
+        self.id = str(uuid.uuid4())
         self.email = kwargs.get('email')
         self.firstName = kwargs.get('firstName')
         self.lastName = kwargs.get('lastName')

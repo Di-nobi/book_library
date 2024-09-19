@@ -1,7 +1,7 @@
-
+#!/bin/bash python3
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database import storage
+from backend.database import storage
 from api.v1.views import app_look
 app = Flask(__name__)
 
@@ -19,4 +19,4 @@ def notFound(err):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, threaded=True)

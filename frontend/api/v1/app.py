@@ -1,7 +1,12 @@
+#!/usr/bin/python3
+
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database import storage
-from api.v1.views import app_look
+from frontend.database import storage
+from frontend.api.v1.views import app_look
+import os
+
+
 app = Flask(__name__)
 
 
@@ -20,4 +25,6 @@ def notFound(err):
 
 if __name__ == '__main__':
     print("Starting Flask on port 5001...")
-    app.run(host='0.0.0.0', port=5001, debug=False)
+    host = os.getenv('HOST', '0.0.0.0')
+    port = int(os.getenv('PORT', '5001'))
+    app.run(host=host, port=port, threaded=True)

@@ -9,7 +9,7 @@ class Book(Base):
     publisher = Column(String(255), nullable=False)
     category = Column(String(255), nullable=False)
     available = Column(Boolean, nullable=False, default=True)
-    due_date = Column(Integer)
+    due_date = Column(String(50))
     user_id = Column(String(128), ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='book')
     def __init__(self, **kwargs):

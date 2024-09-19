@@ -11,6 +11,7 @@ def add_book():
         'title': request.form.get('title'),
         'publisher': request.form.get('publisher'),
         'category': request.form.get('category'),
+        'available': True
     }
     if not kwargs['title'] or not kwargs['publisher'] or not kwargs['category']:
         return jsonify({'error': 'Missing required fields'}), 400
@@ -45,7 +46,7 @@ def remove_book(book_id):
     try:
         requests.delete(url, json={'book_id': book_id})
     except requests.exceptions.RequestException as e:
-        return jsonify({'error': 'Could not notify the frontend ' + e}), 500
+        return jsonify({'error': f'Could not notify the frontend {e}'}), 500
     return jsonify({'book removed': book}), 200
 
 @app_look.route('/get_users', methods=['GET'])

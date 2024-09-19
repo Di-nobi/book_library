@@ -42,16 +42,22 @@ class Database:
         self.save()
         return books
     
+    def add_users(self, **kwargs):
+        users = User(**kwargs)
+        self.begin_session().add(users)
+        self.begin_session().commit()
+        return users
+    
     def get_books(self):
-        return self._session.query(Book).all()
+        return self.begin_session().query(Book).all()
     
     def get_book_by_id(self, id):
-        return self._session.query(Book).filter(Book.id == id).first()
+        return self.begin_session().query(Book).filter(Book.id == id).first()
     
     def get_users_with_books(self):
         """Return all users with books checked out"""
-        return self._session.query(User).join(Book).all()
+        return self.begin_session().query(User).join(Book).all()
     
     def get_users(self):
         """Returns all users"""
-        return self._session.query(User).all()
+        return self.begin_session().query(User).all()
