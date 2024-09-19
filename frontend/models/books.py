@@ -20,4 +20,4 @@ class Book(Base):
         self.publisher = kwargs.get('publisher')
         self.category = kwargs.get('category')
         self.available = kwargs.get('available')
-        # self.user_id = kwargs.get('user_id')
+        self.user_id = kwargs.get('user_id')

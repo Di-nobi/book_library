@@ -26,6 +26,7 @@ def enroll_user():
         return jsonify({'error': f'Could not notify the frontend {e}'}), 500
     
     user_data = {
+        'id': user.id,
         'firstName': user.firstName,
         'lastName': user.lastName,
         'email': user.email

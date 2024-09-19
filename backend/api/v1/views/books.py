@@ -74,14 +74,17 @@ def remove_from_catalog():
         'id': data.get('id'),
         'available': data.get('available'),
         'due_date': data.get('due_date'),
+        'user_id': data.get('user_id')
     }
-    if not kwargs['id'] or kwargs['available'] is None or not kwargs['due_date']:
+    print(kwargs['user_id'], kwargs['due_date'], kwargs['available'])
+    if not kwargs['id'] or kwargs['available'] is None or not kwargs['due_date'] or not kwargs['user_id']:
         return jsonify({'error': 'Missing required fields'}), 401
     book = storage.get_book_by_id(kwargs['id'])
     if not book:
         return jsonify({'error': 'Book not found'}), 404
     book.available = kwargs['available']
     book.due_date = kwargs['due_date']
+    book.user_id = kwargs['user_id']
     storage.save()
 
     book_dict = {
@@ -91,7 +94,6 @@ def remove_from_catalog():
         'category': book.category,
         'available': book.available,
         'due_date': book.due_date,
-        'user_id': book.user_id
     }
     print(book_dict)
     return jsonify({'book removed': book_dict}), 201
@@ -100,6 +102,7 @@ def remove_from_catalog():
 def get_users_borrowed_books():
     """Return all users with books not in catalogue"""
     users = storage.get_users_with_books()
+    print(users)
     if not users:
         return jsonify({'error': 'No users with books checked out'}), 404
     
@@ -110,7 +113,7 @@ def get_users_borrowed_books():
             'email': user.email,
             'firstName': user.firstName,
             'lastName': user.lastName,
-            'books': user.book
+            'books': user.books
         }
         result.append(user_data)
     return jsonify({'users': result}), 200
@@ -125,7 +128,7 @@ def get_unavailable_books():
 
         unavailable_books = []
         for book in books:
-            if not book.available:
+            if book.available:
                 data = {
                     'id': book.id,
                     'title': book.title,
@@ -134,8 +137,8 @@ def get_unavailable_books():
                     'due_date': book.due_date
                 }
                 unavailable_books.append(data)
-            else:
+            if not unavailable_books:
                 return jsonify({'message': 'All books are available'}), 200
-        return jsonify({'unavailable books and due date': unavailable_books}), 200
+        return jsonify({'unavailable books': unavailable_books}), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred {e}'}), 500

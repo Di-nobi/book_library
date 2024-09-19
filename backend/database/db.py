@@ -56,7 +56,7 @@ class Database:
     
     def get_users_with_books(self):
         """Return all users with books checked out"""
-        return self.begin_session().query(User).join(Book).filter(Book.available == False).all()
+        return self.begin_session().query(User).filter(User.books.any(Book.available == False)).all()
     
     def get_users(self):
         """Returns all users"""

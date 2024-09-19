@@ -12,7 +12,7 @@ class Book(Base):
     available = Column(Boolean, nullable=False, default=True)
     due_date = Column(String(50), nullable=True)
     user_id = Column(String(128), ForeignKey('users.id'), nullable=True)
-    user = relationship('User', back_populates='book')
+    user = relationship('User', back_populates='books')
     def __init__(self, **kwargs):
         self.id = str(uuid.uuid4())
         self.title = kwargs.get('title')
@@ -20,3 +20,4 @@ class Book(Base):
         self.category = kwargs.get('category')
         self.available = kwargs.get('available')
         self.due_date = kwargs.get('due_date')
+        self.user_id = kwargs.get('user_id')

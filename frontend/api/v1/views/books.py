@@ -87,9 +87,12 @@ def get_category(category):
     }
     return jsonify({'book_category': cat_book}), 201
 
-@app_look.route('/borrow_book/<book_id>', methods=['POST'])
-def borrow_book(book_id):
+@app_look.route('/borrow_book/<book_id>/<user_id>', methods=['POST'])
+def borrow_book(book_id, user_id):
     """Borrows a particular book"""
+    get_user = storage.get_users_by_id(user_id)
+    if not get_user:
+        return jsonify({'error': 'User not found'}), 404
     get_book = storage.get_book_by_id(book_id)
     if not get_book:
         return jsonify({'error': 'Book not found'}), 404
@@ -97,16 +100,19 @@ def borrow_book(book_id):
         return jsonify({'error': 'Book is already borrowed'})
     get_book.available = False
     get_book.due_date = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
+    get_book.user_id = user_id
+    print(get_book.user_id)
     storage.save()
     url = 'http://localhost:5000/api/v1/update_book_detail'
     try:
         requests.post(url, json={
             'id': get_book.id,
             'available': get_book.available,
-            'due_date': get_book.due_date
+            'due_date': get_book.due_date,
+            'user_id': get_book.user_id,
         })
     except requests.exceptions.RequestException as e:
-        return jsonify({'error': f'Could not notify the frontend {e}'}), 500
+        return jsonify({'error': f'Could not notify the backend {e}'}), 500
     return jsonify({'book borrowed': get_book.id}), 201
 
 @app_look.route('/remove_catalog', methods=['DELETE'])

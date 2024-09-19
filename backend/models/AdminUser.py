@@ -9,7 +9,7 @@ class User(Base):
     email = Column(String(255), nullable=False)
     firstName = Column(String(255), nullable=False)
     lastName = Column(String(255), nullable=False)
-    book = relationship('Book', back_populates='user')
+    books = relationship('Book', back_populates='user')
 
     def __init__(self, **kwargs):
         self.id = str(uuid.uuid4())

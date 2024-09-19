@@ -58,3 +58,6 @@ class Database:
 
     def get_book_by_id(self, id):
         return self.begin_session().query(Book).filter(Book.id == id).first()
+    
+    def get_users_by_id(self, id):
+        return self.begin_session().query(User.id == id).first()
