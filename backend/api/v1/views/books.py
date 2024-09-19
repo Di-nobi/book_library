@@ -20,9 +20,10 @@ def add_book():
     url = 'http://localhost:5001/api/v1/update_catalog'
     try:
         requests.post(url, json={
+            'id': book.id,
             'title': book.title,
             'publisher': book.publisher,
-            'category': book.category
+            'category': book.category,
         })
     except requests.exceptions.RequestException as e:
         return jsonify({'error': f'Could not notify the frontend {e}'}), 500

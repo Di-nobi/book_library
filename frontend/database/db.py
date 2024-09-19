@@ -8,7 +8,7 @@ from frontend.models import Base
 
 class Database:
     def __init__(self):
-        self.__engine = create_engine('sqlite:///library.db')
+        self.__engine = create_engine('sqlite:///frontend_library.db')
         Base.metadata.create_all(self.__engine)
         self._session = None
 
@@ -24,11 +24,11 @@ class Database:
         
    
     def add(self, num):
-        return self.begin_session().add(num)
+        self.begin_session().add(num)
     
 
     def save(self):
-        return self.begin_session().commit
+        self.begin_session().commit()
     
 
     def add_users(self, **kwargs):

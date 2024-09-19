@@ -10,22 +10,24 @@ def add_book():
     data = request.get_json()
     print(f'Data found: {data}')
     kwargs = {
+        'id': data.get('id'),
         'title': data.get('title'),
         'publisher': data.get('publisher'),
         'category': data.get('category'),
-        'available': data.get('available', True) 
 
     }
 
-    if not kwargs['title'] or not kwargs['publisher'] or not kwargs['category']:
+    if not kwargs['title'] or not kwargs['publisher'] or not kwargs['category'] or not kwargs['id']:
         return jsonify({'error': 'Missing required fields'}), 401
 
     book = storage.add_books(**kwargs)
     book_list = {
+        'id': book.id,
         'title': book.title,
         'publisher': book.publisher,
-        'category': book.category
+        'category': book.category,
     }
+    print(book_list)
     return jsonify({'book updated': book_list }), 201
 
 @app_look.route('/available_books', methods=['GET'])

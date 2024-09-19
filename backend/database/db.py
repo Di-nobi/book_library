@@ -8,7 +8,7 @@ from backend.models import Base
 
 class Database:
     def __init__(self):
-        self.__engine = create_engine('sqlite:///library.db')
+        self.__engine = create_engine('sqlite:///backend_library.db')
         Base.metadata.create_all(self.__engine)
         self._session = None
 

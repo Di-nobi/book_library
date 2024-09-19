@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Boolean, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from backend.models import Base
+import uuid
 
 class Book(Base):
     __tablename__ = 'books'
@@ -13,6 +14,7 @@ class Book(Base):
     user_id = Column(String(128), ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='book')
     def __init__(self, **kwargs):
+        self.id = str(uuid.uuid4())
         self.title = kwargs.get('title')
         self.publisher = kwargs.get('publisher')
         self.category = kwargs.get('category')
