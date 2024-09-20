@@ -7,10 +7,11 @@ from database import storage
 @app_look.route('/add_book', methods=['POST'])
 def add_book():
     """Adds new books to the catalogue"""
+    data = request.get_json()
     kwargs = {
-        'title': request.form.get('title'),
-        'publisher': request.form.get('publisher'),
-        'category': request.form.get('category'),
+        'title': data.get('title'),
+        'publisher': data.get('publisher'),
+        'category': data.get('category'),
         'available': True
     }
     if not kwargs['title'] or not kwargs['publisher'] or not kwargs['category']:
@@ -48,7 +49,7 @@ def remove_book(book_id):
         requests.delete(url, json={'book_id': book_id})
     except requests.exceptions.RequestException as e:
         return jsonify({'error': f'Could not notify the frontend {e}'}), 500
-    return jsonify({'book removed': book}), 200
+    return jsonify({'book removed': book.to_dict()}), 200
 
 @app_look.route('/get_users', methods=['GET'])
 def get_users():
@@ -128,13 +129,12 @@ def get_unavailable_books():
 
         unavailable_books = []
         for book in books:
-            if book.available:
+            if not book.available:
                 data = {
-                    'id': book.id,
-                    'title': book.title,
-                    'publisher': book.publisher,
                     'category': book.category,
-                    'due_date': book.due_date
+                    'id': book.id,
+                    'publisher': book.publisher,
+                    'title': book.title,
                 }
                 unavailable_books.append(data)
             if not unavailable_books:

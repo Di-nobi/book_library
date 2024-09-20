@@ -21,3 +21,12 @@ class Book(Base):
         self.available = kwargs.get('available')
         self.due_date = kwargs.get('due_date')
         self.user_id = kwargs.get('user_id')
+
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'publisher': self.publisher,
+            'category': self.category,
+        }

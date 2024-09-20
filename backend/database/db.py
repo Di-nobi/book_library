@@ -31,8 +31,8 @@ class Database:
         return self.begin_session().commit()
     
 
-    def delete(self):
-        return self.begin_session().delete
+    def delete(self, num):
+        return self.begin_session().delete(num)
     
 
     def add_books(self, **kwargs):
