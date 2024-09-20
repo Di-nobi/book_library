@@ -126,7 +126,7 @@ def get_unavailable_books():
         books = storage.get_books()
         if not books:
             return jsonify({'error': 'No books in the catalogue'}), 404
-
+        print(books)
         unavailable_books = []
         for book in books:
             if not book.available:
@@ -138,8 +138,8 @@ def get_unavailable_books():
                     'due_date': book.due_date,
                 }
                 unavailable_books.append(data)
-            if not unavailable_books:
-                return jsonify({'message': 'All books are available'}), 200
+            # if not unavailable_books:
+            #     return jsonify({'message': 'All books are available'}), 200
         return jsonify({'unavailable books': unavailable_books}), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred {e}'}), 500
