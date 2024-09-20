@@ -24,15 +24,15 @@ class Database:
         
    
     def add(self, num):
-        return self.begin_session().add(num)
+        self.begin_session().add(num)
     
 
     def save(self):
-        return self.begin_session().commit()
+        self.begin_session().commit()
     
 
     def delete(self, num):
-        return self.begin_session().delete(num)
+        self.begin_session().delete(num)
     
 
     def add_books(self, **kwargs):
