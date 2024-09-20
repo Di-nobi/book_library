@@ -1,6 +1,6 @@
 from flask import jsonify, request, redirect, abort
-from frontend.api.v1.views import app_look
-from frontend.database import storage
+from api.v1.views import app_look
+from database import storage
 import requests
 
 @app_look.route('/enroll_user', methods=['POST'])

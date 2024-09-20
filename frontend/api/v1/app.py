@@ -2,8 +2,8 @@
 
 from flask import Flask, jsonify
 from flask_cors import CORS
-from frontend.database import storage
-from frontend.api.v1.views import app_look
+from database import storage
+from api.v1.views import app_look
 import os
 
 

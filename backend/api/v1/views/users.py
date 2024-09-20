@@ -1,7 +1,7 @@
 from flask import jsonify, request, redirect, abort
 import requests
-from backend.api.v1.views import app_look
-from backend.database import storage
+from api.v1.views import app_look
+from database import storage
 
 @app_look.route('/enroll_user', methods=['POST'])
 def add_user():

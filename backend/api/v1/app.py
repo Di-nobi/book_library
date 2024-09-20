@@ -1,8 +1,8 @@
 #!/bin/bash python3
 from flask import Flask, jsonify
 from flask_cors import CORS
-from backend.database import storage
-from backend.api.v1.views import app_look
+from database import storage
+from api.v1.views import app_look
 app = Flask(__name__)
 
 

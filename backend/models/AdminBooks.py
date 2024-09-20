@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Boolean, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from backend.models import Base
+from models import Base
 import uuid
 
 class Book(Base):

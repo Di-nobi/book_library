@@ -1,7 +1,7 @@
 from flask import jsonify, request, redirect, abort
 import requests
-from backend.api.v1.views import app_look
-from backend.database import storage
+from api.v1.views import app_look
+from database import storage
 
 
 @app_look.route('/add_book', methods=['POST'])
@@ -101,7 +101,7 @@ def remove_from_catalog():
 @app_look.route('/users_borrowed_books', methods=['GET'])
 def get_users_borrowed_books():
     """Return all users with books not in catalogue"""
-    users = storage.get_users_with_books()
+    users = storage.get_users()
     print(users)
     if not users:
         return jsonify({'error': 'No users with books checked out'}), 404

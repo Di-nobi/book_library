@@ -1,10 +1,10 @@
 """Database setup for the library management application"""
 
-from backend.models.AdminBooks import Book
-from backend.models.AdminUser import User
+from models.AdminBooks import Book
+from models.AdminUser import User
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from backend.models import Base
+from models import Base
 
 class Database:
     def __init__(self):
