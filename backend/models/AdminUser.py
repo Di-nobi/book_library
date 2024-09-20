@@ -12,7 +12,7 @@ class User(Base):
     books = relationship('Book', back_populates='user')
 
     def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
+        self.id = kwargs.get('id', str(uuid.uuid4())) 
         self.email = kwargs.get('email')
         self.firstName = kwargs.get('firstName')
         self.lastName = kwargs.get('lastName')

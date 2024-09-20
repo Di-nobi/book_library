@@ -17,7 +17,7 @@ def add_book():
         return jsonify({'error': 'Missing required fields'}), 400
     book = storage.add_books(**kwargs)
 
-    url = 'http://localhost:5001/api/v1/update_catalog'
+    url = 'http://frontend:5001/api/v1/update_catalog'
     try:
         requests.post(url, json={
             'id': book.id,
@@ -43,7 +43,7 @@ def remove_book(book_id):
         return jsonify({'error': 'Book not found'}), 404
     storage.delete(book)
     storage.save()
-    url = 'http://localhost:5001/remove_catalog'
+    url = 'http://frontend:5001/remove_catalog'
     try:
         requests.delete(url, json={'book_id': book_id})
     except requests.exceptions.RequestException as e:

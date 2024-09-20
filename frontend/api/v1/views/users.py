@@ -15,7 +15,7 @@ def enroll_user():
         return jsonify({'error': 'Missing required fields'}), 400
     user = storage.add_users(**kwargs)
 
-    url = 'http://localhost:5000/api/v1/enroll_user'
+    url = 'http://backend:5000/api/v1/enroll_user'
     try:
         requests.post(url, json={
             'firstName': user.firstName,
@@ -23,7 +23,7 @@ def enroll_user():
             'email': user.email
         })
     except requests.exceptions.RequestException as e:
-        return jsonify({'error': f'Could not notify the frontend {e}'}), 500
+        return jsonify({'error': f'Could not notify the backend {e}'}), 500
     
     user_data = {
         'id': user.id,

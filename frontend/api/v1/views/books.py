@@ -103,7 +103,7 @@ def borrow_book(book_id, user_id):
     get_book.user_id = user_id
     print(get_book.user_id)
     storage.save()
-    url = 'http://localhost:5000/api/v1/update_book_detail'
+    url = 'http://backend:5000/api/v1/update_book_detail'
     try:
         requests.post(url, json={
             'id': get_book.id,
