@@ -135,6 +135,7 @@ def get_unavailable_books():
                     'id': book.id,
                     'publisher': book.publisher,
                     'title': book.title,
+                    'due_date': book.due_date,
                 }
                 unavailable_books.append(data)
             if not unavailable_books:
