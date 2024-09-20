@@ -14,16 +14,41 @@ def test_get_book(client):
     assert response.status_code == 200
     assert response.json == {'book': {'title': 'The Alchemist', 'publisher': 'HarperCollins', 'category': 'Fiction'}}
 
+def test_get_publisher(client):
+
+    response = client.get('/api/v1/pub_book/HarperCollins')
+    assert response.status_code == 201
+    assert response.json == {"publisher_book": {
+        "category": "Fiction",
+        "publisher": "HarperCollins",
+        "title": "The Alchemist"
+    }}
+
+    response = client.get('/api/v1/pub_book/NonExistingPublisher')
+    assert response.status_code == 404
+    assert response.json == {'error': 'Publisher not in catalogue'}
+
+
+def test_get_category(client):
+    # Test with an existing category
+    response = client.get('/api/v1/cat_book/Fiction')
+    assert response.status_code == 201
+    assert response.json == {"book_category": {
+        "category": "Fiction",
+        "publisher": "HarperCollins",
+        "title": "The Alchemist"
+    }}
+
+    # Test with a non-existing category
+    response = client.get('/api/v1/cat_book/NonExistingCategory')
+    assert response.status_code == 404
+    assert response.json == {'error': 'Category of book does not exist'}
+
+
 def test_get_available_books(client):
     response = client.get('/api/v1/available_books')
     assert response.status_code == 200
     expected_books = [
-        {
-            "category": "Fiction",
-            "id": "4b16bfa4-da33-441c-a852-d8bc42952468",
-            "publisher": "HarperCollins",
-            "title": "The Alchemist"
-        },
         {
             "category": "Fiction",
             "id": "b41b2bd5-2710-4f32-8dfc-1457cf119f7e",
@@ -129,6 +154,12 @@ def test_get_available_books(client):
         {
             "category": "Fiction",
             "id": "15778e98-3f4a-4f5c-b3cd-b385f0e92d3d",
+            "publisher": "HarperCollins",
+            "title": "The Alchemist"
+        },
+        {
+            "category": "Fiction",
+            "id": "7f5a0b31-3946-4696-b99f-6818e82722de",
             "publisher": "HarperCollins",
             "title": "The Alchemist"
         }
