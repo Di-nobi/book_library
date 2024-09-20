@@ -44,7 +44,7 @@ def get_books():
                 'publisher': book.publisher,
                 'category': book.category
             }
-        book_list.append(data)
+            book_list.append(data)
     return jsonify({'books': book_list}), 200
 
 @app_look.route('/book/<book_id>', methods=['GET'])
