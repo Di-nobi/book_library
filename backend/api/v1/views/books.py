@@ -102,7 +102,7 @@ def remove_from_catalog():
 @app_look.route('/users_borrowed_books', methods=['GET'])
 def get_users_borrowed_books():
     """Return all users with books not in catalogue"""
-    users = storage.get_users()
+    users = storage.get_users_with_books()
     print(users)
     if not users:
         return jsonify({'error': 'No users with books checked out'}), 404

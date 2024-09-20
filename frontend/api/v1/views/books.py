@@ -60,7 +60,7 @@ def get_book(book_id):
     }
     return jsonify({'book': book}), 200
 
-@app_look.route('/book/<publisher>', methods=['GET'])
+@app_look.route('/pub_book/<publisher>', methods=['GET'])
 def get_publisher(publisher):
     """Gets a book by publisher"""
     book_by_publisher = storage.get_publisher(publisher)
@@ -73,7 +73,7 @@ def get_publisher(publisher):
     }
     return jsonify({'publisher_book': pub_book}), 201
     
-@app_look.route('/book/<category>', methods=['GET'])
+@app_look.route('/cat_book/<category>', methods=['GET'])
 def get_category(category):
     """Gets a book by category"""
     book_by_category = storage.get_category(category)
